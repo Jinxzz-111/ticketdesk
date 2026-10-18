@@ -1,11 +1,16 @@
 services:
   proxy:
-    build: ./proxy
-    image: ticketdesk/proxy:${TAG:-latest}
-    ports: ["8080:80"]
-    depends_on: [frontend, tickets-api]
-    restart: unless-stopped
-    networks: [ticket-net]
+       build: ./proxy
+       image: ticketdesk/proxy:${TAG:-latest}
+       ports: ["8080:80"]
+       depends_on: [frontend, tickets-api]
+       restart: unless-stopped
+       healthcheck:
+         test: ["CMD-SHELL", "wget -qO- http://127.0.0.1/api/tickets/health >/dev/null || exit 1"]
+         interval: 15s
+         timeout: 5s
+         retries: 3
+       networks: [ticket-net]
   frontend:
     build:
       context: ./frontend
@@ -13,6 +18,11 @@ services:
         BUILD_NUMBER: ${TAG:-dev}
     image: ticketdesk/frontend:${TAG:-latest}
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://127.0.0.1/ >/dev/null || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
     networks: [ticket-net]
   tickets-api:
     build:
