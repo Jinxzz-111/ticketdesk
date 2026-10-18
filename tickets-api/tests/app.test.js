@@ -85,3 +85,26 @@ test('a database error returns 500 instead of crashing', async () => {
     assert.strictEqual(r.status, 500);
   } finally { server.close(); }
 });
+
+// ---- Delete a finished request ----
+const del = (b, id) => fetch(`${b}/${id}`, { method: 'DELETE' });
+
+test('DELETE /:id rejects a non-numeric id', () => withServer(async (b) =>
+  assert.strictEqual((await del(b, 'abc')).status, 400)));
+
+test('DELETE /:id returns 404 when there is no finished request with that id', () => withServer(async (b) =>
+  assert.strictEqual((await del(b, 999)).status, 404)));
+
+test('DELETE /:id deletes a finished request and its notifications', async () => {
+  let seen;
+  const pool = { query: async (sql, p) => { seen = { sql, p }; return { rows: [{ id: 7 }] }; } };
+  const server = createApp(pool).listen(0);
+  try {
+    const r = await fetch(`http://127.0.0.1:${server.address().port}/7`, { method: 'DELETE' });
+    assert.strictEqual(r.status, 200);
+    assert.deepStrictEqual(await r.json(), { deleted: 7 });
+    assert.deepStrictEqual(seen.p, [7]);
+    assert.ok(/status\s*=\s*'resolved'/.test(seen.sql));    // only finished requests can be deleted
+    assert.ok(/DELETE FROM notifications/.test(seen.sql));   // its notification rows go first (foreign key)
+  } finally { server.close(); }
+});

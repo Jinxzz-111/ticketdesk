@@ -59,6 +59,22 @@ function createApp(pool) {
     if (!rows.length) return res.status(404).json({ errors: ['ticket not found'] });
     res.json(rows[0]);
   }));
+
+
+  // Deletes a FINISHED (resolved) request and its notifications in one statement.
+  // notifications.ticket_id is a foreign key, so the notification rows must go first.
+  app.delete('/:id', wrap(async (req, res) => {
+    const id = parseId(req.params.id);
+    if (id === null) return res.status(400).json({ errors: ['invalid ticket id'] });
+    const { rows } = await pool.query(
+      `WITH t AS (SELECT id FROM tickets WHERE id = $1 AND status = 'resolved'),
+            n AS (DELETE FROM notifications WHERE ticket_id IN (SELECT id FROM t))
+       DELETE FROM tickets WHERE id IN (SELECT id FROM t) RETURNING id`, [id]);
+    if (!rows.length) return res.status(404).json({ errors: ['finished request not found'] });
+    res.json({ deleted: id });
+  }));
+
+
   // Any unexpected error (for example the database is down) becomes a 500 response.
   app.use((err, req, res, next) => {
     console.error(err.message);
