@@ -1,0 +1,7 @@
+{
+  "name": "tickets-api",
+  "version": "1.0.0",
+  "main": "src/server.js",
+  "scripts": { "start": "node src/server.js", "test": "node --test" },
+  "dependencies": { "express": "4.19.2", "pg": "8.12.0" }
+}

@@ -1,0 +1,63 @@
+services:
+  proxy:
+    build: ./proxy
+    image: ticketdesk/proxy:${TAG:-latest}
+    ports: ["8080:80"]
+    depends_on: [frontend, tickets-api]
+    restart: unless-stopped
+    networks: [ticket-net]
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        BUILD_NUMBER: ${TAG:-dev}
+    image: ticketdesk/frontend:${TAG:-latest}
+    restart: unless-stopped
+    networks: [ticket-net]
+  tickets-api:
+    build:
+      context: ./tickets-api
+      target: production
+    image: ticketdesk/tickets-api:${TAG:-latest}
+    environment:
+      DB_HOST: db
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+    depends_on:
+      db: { condition: service_healthy }
+    restart: unless-stopped
+    networks: [ticket-net]
+  worker:
+    build:
+      context: ./worker
+      target: production
+    image: ticketdesk/worker:${TAG:-latest}
+    environment:
+      DB_HOST: db
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+    depends_on:
+      db: { condition: service_healthy }
+    restart: unless-stopped
+    networks: [ticket-net]
+  db:
+    build: ./db
+    image: ticketdesk/db:${TAG:-latest}
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes: [db-data:/var/lib/postgresql/data]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+    networks: [ticket-net]
+volumes:
+  db-data:
+networks:
+  ticket-net:

@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TicketDesk</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header><h1>TicketDesk</h1><p>Send a request and follow it until it is resolved.</p></header>
+  <main>
+    <form id="form">
+      <h2>New request</h2>
+      <label>Title <input id="title" required minlength="3"></label>
+      <label>Details <textarea id="description" rows="3"></textarea></label>
+      <label>Your name <input id="requester"></label>
+      <label>Priority
+        <select id="priority"><option>low</option><option selected>medium</option><option>high</option></select>
+      </label>
+      <button>Submit request</button>
+      <p id="msg" role="status"></p>
+    </form>
+    <section>
+      <h2>Requests</h2>
+      <ul id="list"></ul>
+    </section>
+  </main>
+  <footer>Build <span id="build"></span></footer>
+  <script src="version.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
