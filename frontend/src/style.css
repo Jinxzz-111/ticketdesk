@@ -1,4 +1,5 @@
-:root { --ink:#1b2430; --paper:#eef1f4; --card:#fff; --accent:#0e7c7b; --line:#cfd6dd; }
+:root { --ink:#1b2430; --paper:#eef1f4; --card:#fff; --accent:#0e7c7b; --line:#cfd6dd; --muted:#5a6673; }
+[data-theme="dark"] { --ink:#e6ebf0; --paper:#10161c; --card:#1a232c; --line:#33404d; --muted:#9aa7b4; --accent:#1aa5a3; }
 * { box-sizing: border-box; }
 body { margin:0; font:16px/1.5 system-ui, sans-serif; color:var(--ink); background:var(--paper); }
 header, main, footer { max-width:880px; margin:0 auto; padding:1rem; }
@@ -7,12 +8,17 @@ main { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.3fr); gap:1.
 @media (max-width:700px) { main { grid-template-columns:1fr; } }
 form, section { background:var(--card); border:1px solid var(--line); border-radius:8px; padding:1rem; }
 label { display:block; margin:.6rem 0; font-weight:600; }
-input, textarea, select { width:100%; font:inherit; padding:.4rem; border:1px solid var(--line); border-radius:4px; }
+input, textarea, select { width:100%; font:inherit; color:var(--ink); background:var(--card); padding:.4rem; border:1px solid var(--line); border-radius:4px; }
 button { font:inherit; font-weight:600; color:#fff; background:var(--accent); border:0; border-radius:4px; padding:.5rem 1rem; cursor:pointer; }
 button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible { outline:3px solid #f2b705; outline-offset:1px; }
 ul { list-style:none; padding:0; margin:0; }
 li { display:grid; gap:.25rem; padding:.7rem .8rem; margin-bottom:.6rem; border:1px solid var(--line); border-left-width:5px; border-radius:4px; }
-li span { color:#5a6673; font-size:.9rem; }
+li span { color:var(--muted); font-size:.9rem; }
 li select { width:auto; justify-self:start; }
 .p-high { border-left-color:#c0392b; } .p-medium { border-left-color:#d4a017; } .p-low { border-left-color:var(--accent); }
-footer { color:#5a6673; font-size:.9rem; }
+footer { color:var(--muted); font-size:.9rem; }
+
+.toolbar { display:grid; grid-template-columns:1fr auto auto; gap:.5rem; margin-bottom:.8rem; }
+.toolbar select { width:auto; }
+@media (max-width:700px) { .toolbar { grid-template-columns:1fr; } .toolbar select { width:100%; } }
+#theme { margin-top:.4rem; }

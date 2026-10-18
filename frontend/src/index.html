@@ -7,7 +7,11 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header><h1>TicketDesk</h1><p>Send a request and follow it until it is resolved.</p></header>
+  <header>
+    <h1>TicketDesk</h1>
+    <p>Send a request and follow it until it is resolved.</p>
+    <button id="theme" type="button">Dark mode</button>
+  </header>
   <main>
     <form id="form">
       <h2>New request</h2>
@@ -22,6 +26,19 @@
     </form>
     <section>
       <h2>Requests</h2>
+      <div class="toolbar">
+        <input id="search" type="search" placeholder="Search by title" aria-label="Search requests">
+        <select id="filter" aria-label="Filter by priority">
+          <option value="all">All priorities</option>
+          <option value="high">High</option>
+          <option value="medium">Medium</option>
+          <option value="low">Low</option>
+        </select>
+        <select id="sort" aria-label="Sort requests">
+          <option value="newest">Newest first</option>
+          <option value="priority">Highest priority first</option>
+        </select>
+      </div>
       <ul id="list"></ul>
     </section>
   </main>
