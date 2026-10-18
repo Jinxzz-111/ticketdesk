@@ -24,6 +24,6 @@ New Item > Pipeline > Pipeline script from SCM > your GitHub repo, Script Path `
 ## Team
 | Member | Roles |
 |---|---|
-| Juan | Project Lead + DevOps / CI-CD (Jenkins, Jenkinsfile, webhook); owns `db/init.sql` and `worker/` |
-| Chris | Infrastructure (Dockerfiles, docker-compose.yml, proxy, architecture diagram); owns `tickets-api/` |
-| Carlo | Frontend, QA and Documentation (frontend, tests, README, technical docs, slides) |
+| Adrian | Project Lead + DevOps / CI-CD (Jenkins, Jenkinsfile, webhook); owns `db/init.sql` and `worker/` |
+| Ethan | Infrastructure (Dockerfiles, docker-compose.yml, proxy, architecture diagram); owns `tickets-api/` |
+| Jovit | Frontend, QA and Documentation (frontend, tests, README, technical docs, slides) |
