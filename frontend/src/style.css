@@ -59,3 +59,5 @@ dialog p { margin:.45rem 0; }
 #confirm-error { min-height:1.4em; color:#c0392b; font-weight:600; }
 .confirm-actions { display:flex; flex-wrap:wrap; justify-content:flex-end; gap:.75rem; margin-top:1.25rem; }
 .btn-danger { background:#c0392b; }
+#confirm-yes { background:#c0392b; }
+#confirm-yes:hover { background:#992d22; }

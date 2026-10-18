@@ -43,6 +43,16 @@
       <ul id="list"></ul>
     </section>
   </main>
+  <dialog id="confirm">
+    <h2>Delete this request?</h2>
+    <p class="confirm-text" id="confirm-text"></p>
+    <p>This permanently removes it from the history.</p>
+    <p id="confirm-error" role="alert"></p>
+    <div class="confirm-actions">
+      <button type="button" id="confirm-no" class="btn-reopen">No</button>
+      <button type="button" id="confirm-yes">Yes, delete</button>
+    </div>
+  </dialog>
   <footer>Build <span id="build"></span></footer>
   <script src="version.js"></script>
   <script src="app.js"></script>
