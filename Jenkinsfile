@@ -28,7 +28,7 @@ pipeline {
       steps {
         sh '''
           for i in $(seq 1 12); do
-            if docker compose exec -T proxy wget -qO- http://localhost/api/tickets/health; then
+            if docker compose exec -T proxy wget -qO- http://127.0.0.1/api/tickets/health; then
               echo "Smoke test passed"; exit 0
             fi
             echo "Waiting for services..."; sleep 5
