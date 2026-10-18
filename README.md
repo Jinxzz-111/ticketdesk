@@ -29,3 +29,4 @@ New Item > Pipeline > Pipeline script from SCM > your GitHub repo, Script Path `
 | Jovit | Frontend, QA and Documentation (frontend, tests, README, technical docs, slides) |
 
 Jenkins testing build numb 9
+test 10 checking
